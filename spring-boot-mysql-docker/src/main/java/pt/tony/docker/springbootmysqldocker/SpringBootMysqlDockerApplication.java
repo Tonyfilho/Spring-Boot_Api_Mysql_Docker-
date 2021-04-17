@@ -1,13 +1,13 @@
-package com.tony.springbootcommsql;
+package pt.tony.docker.springbootmysqldocker;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringBootComMsqlApplication {
+public class SpringBootMysqlDockerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootComMsqlApplication.class, args);
+		SpringApplication.run(SpringBootMysqlDockerApplication.class, args);
 	}
 
 }
