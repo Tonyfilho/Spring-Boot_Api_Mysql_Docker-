@@ -1,27 +1,34 @@
 version: '3'
 services: 
-    spring_boot_com_mysql:
+    spring_boot:
         build: 
             context: ./
             dockerfile: ./Dockerfile
-        image: spring_boot_com_mysql/api
+        depends_on: 
+            - db
+        image: spring_boot_docker
         ports: 
             - '8080:8080'
             - '5005:5005'
         environment: 
-            - ADDITIONAL_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xmx1G -Xms128m -XX:MaxMetaspaceSize=128m
+            - ADDITIONAL_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005 -Xmx1G -Xms128m -XX:MaxMetaspaceSize=128m
             - PROFILE=dev
+            - spring.liquibase.url=jdbc:mysql://db:3306/docker_mysql
+            - spring.liquibase.user=root
+            - spring.liquibase.password=root
         links:
             - db
     db:
         image: mysql:8.0.23
+       
         ports: 
-           - '3307:3307'
+           - '3307:3306'
         environment: 
-           - MYSQL_ROOT_HOST=%
-           - MYSQL_DATABASE=spring_boot_mysql
-           - MYSQL_USER=root
-           - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_ROOT_HOST=%
+            - MYSQL_DATABASE=docker_mysql
+            # - MYSQL_USER=root 
+            - MYSQL_ROOT_PASSWORD=root           
+            
         volumes: 
             - ./docker/volume_mysql:/var/lib/mysql
 
